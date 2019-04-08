@@ -10,6 +10,7 @@ import (
 //Routes embeds github.com/go-chi/hostrouter's Routes
 type Routes struct{ hostrouter.Routes }
 
+//New creates an instance
 func New() Routes {
 	return Routes{}
 }
