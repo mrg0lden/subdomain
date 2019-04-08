@@ -10,6 +10,10 @@ import (
 //Routes embeds github.com/go-chi/hostrouter's Routes
 type Routes struct{ hostrouter.Routes }
 
+func New() Routes {
+	return Routes{}
+}
+
 func (sr Routes) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	host := requestHost(r)
 	for subdomain, router := range sr.Routes {
