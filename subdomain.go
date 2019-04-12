@@ -20,7 +20,7 @@ func (sr Routes) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	host := requestHost(r)
 	for subdomain, router := range sr.Routes {
 
-		if strings.HasPrefix(host, subdomain) {
+		if strings.HasPrefix(host, subdomain) && isSingleSubLevel(subdomain, host) {
 			router.ServeHTTP(w, r)
 			return
 		}
@@ -31,6 +31,19 @@ func (sr Routes) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.NotFound(w, r)
+}
+
+//make sure the subdomain is directly after the main hostname.
+//or as defined by the user (default is 2 levels for normal domains
+//and 1 level for localhost)
+//e.g. sub.example.com ✔ sub.examploo.example.com ❌
+func isSingleSubLevel(subdomain string, host string) bool {
+	subDomainLevels := strings.Count(subdomain, ".")
+	hostLevels := strings.Count(host, ".")
+	if ((subDomainLevels+1) == hostLevels && host == "localhost") || (subDomainLevels+2) == hostLevels {
+		return true
+	}
+	return false
 }
 
 //Copyright (c) 2016-Present https://github.com/go-chi authors
