@@ -1,4 +1,4 @@
-package subrouter
+package subdomain
 
 import (
 	"net/http"
@@ -15,9 +15,11 @@ func New() Routes {
 	return Routes{}
 }
 
+//ServeHTTP implements the http.Handler interface
 func (sr Routes) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	host := requestHost(r)
 	for subdomain, router := range sr.Routes {
+
 		if strings.HasPrefix(host, subdomain) {
 			router.ServeHTTP(w, r)
 			return

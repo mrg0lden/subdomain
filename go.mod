@@ -1,4 +1,4 @@
-module github.com/mrg0lden/subrouter
+module github.com/mrg0lden/subdomain
 
 go 1.12
 
