@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/go-chi/chi"
 	"github.com/go-chi/hostrouter"
 )
 
@@ -13,6 +14,12 @@ type Routes struct{ hostrouter.Routes }
 //New creates an instance
 func New() Routes {
 	return Routes{}
+}
+
+//Map maps subdomains to their routers
+func (sr Routes) Map(subdomain string, h chi.Router) {
+	subdomain = strings.TrimSuffix(subdomain, ".")
+	sr.Routes.Map(subdomain, h)
 }
 
 //ServeHTTP implements the http.Handler interface
