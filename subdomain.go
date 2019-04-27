@@ -13,7 +13,7 @@ type Routes struct{ hostrouter.Routes }
 
 //New creates an instance
 func New() Routes {
-	return Routes{}
+	return Routes{hostrouter.New()}
 }
 
 //Map maps subdomains to their routers
